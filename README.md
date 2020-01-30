@@ -11,12 +11,22 @@ You can clone and checkout master branch of this library and use as a library mo
 
 ## Setup
 
+1- Add jitpack repositories
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+	
 After setting up the library, have a look at ```LaunchNavigator``` class. It is the facade for all functionality of this library
 
-```
-    LaunchNavigator navigator = LaunchNavigator.with(context);
-    NavigationParameter parameter = NavigationParameter.builder().app(LaunchNavigator.WAZE).destination(Position.builder().latitude(Double.toString(locationBox.getLatitude())).longitude(Double.toString(locationBox.getLongitude())).build()).build();
-                           navigator.navigate(parameter);
+```java
+LaunchNavigator navigator = LaunchNavigator.with(context);
+NavigationParameter parameter = NavigationParameter.builder().app(LaunchNavigator.WAZE)
+                                    .destination(Position.builder().latitude(Double.toString(locationBox.getLatitude())).longitude(Double.toString(locationBox.getLongitude()))
+                                    .build()).build(); 
+navigator.navigate(parameter);
 ```
 
 ## Permission
