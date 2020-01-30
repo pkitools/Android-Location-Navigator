@@ -1,55 +1,0 @@
-
-usquid:S00116("XRename this field "MAPS_PROTOCOL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(эл╞╚¤    
-vsquid:S3776О"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(ъЁ╖Б°    8╬жеп -
-vsquid:S3776╙
-"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(┐╔Ё├°    8╬жеп -
-usquid:S1171<"YMove the contents of this initializer to a standard constructor or to field initializers.(╥╠тЦ°    
-Lsquid:S1481╬"-Remove this unused "startPos" local variable.(МЫЁЇ8╬жеп -
-esquid:S1192ш"FDefine a constant instead of duplicating this literal "stops" 3 times.(╪ж∙╚8╬жеп -
-psquid:S1192Ї"LDefine a constant instead of duplicating this literal " - extras=" 13 times.(╠йЪ╓■    8╬жеп -
-vsquid:S1192·"RDefine a constant instead of duplicating this literal " Current Location" 7 times.(°О╛Ц°    8╬жеп -
-Hsquid:S1940р")Use the opposite operator ("!=") instead.(Їи┘Й8╬жеп -
-gsquid:S5361Б"HReplace this call to "replaceAll()" by a call to the "replace()" method.(╫Є┌·8╬жеп -
-;squid:S1643┬"Use a StringBuilder instead.(Ь─къ8╬жеп -
-vsquid:S00117┴"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(╕╬ы▌■    8еФ╔о -
-ksquid:S1192°"GDefine a constant instead of duplicating this literal "URI: " 13 times.(ц┬Мй¤    8╬жеп -
-csquid:S2259ш"DA "NullPointerException" could be thrown; "extras" is nullable here.(╪ж∙╚8╬жеп -
-psquid:S00117╝"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ї╡╨%8╬жеп -
-Ьsquid:S1192┘"xDefine a constant instead of duplicating this literal "Unable to geocode destination address to coordinates: " 11 times.(э№йИ     8╬жеп -
-jsquid:S2259╬"K"NullPointerException" will be thrown when invoking method "splitLatLon()".(МЫЁЇ8╬жеп -
-Csquid:S3599;",Use another way to initialize this instance.(о∙ь╬
-Hsquid:S3599O",Use another way to initialize this instance.(ю▄эЭ·    
-osquid:S00116b"RRename this field "GEO_URI" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Н┐▀╓¤    
-osquid:CommentedOutCodeLineЕ"<This block of commented-out lines of code should be removed.(ш┼┘▌·    8╬жеп -
-Ysquid:S1141┼"5Extract this nested try block into a separate method.(б╗в№∙    8╬жеп -
-jsquid:S2259╡"K"NullPointerException" will be thrown when invoking method "splitLatLon()".(МЫЁЇ8╬жеп -
-qsquid:S3776с	"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ЇЁ╠╓8╬жеп -
-jsquid:S2259е"K"NullPointerException" will be thrown when invoking method "splitLatLon()".(Х╚ОЦ8╬жеп -
-usquid:S1171P"YMove the contents of this initializer to a standard constructor or to field initializers.(╥╠тЦ°    
-л%squid:RedundantThrowsDeclarationCheckи"rRemove the declaration of thrown exception 'java.security.InvalidParameterException' which is a runtime exception.(╟ИАз8╬жеп -
-Ysquid:S1141в"5Extract this nested try block into a separate method.(б╗в№∙    8╬жеп -
-=squid:S1170b"!Make this final field static too.(Н┐▀╓¤    
-=squid:S1170("!Make this final field static too.(эл╞╚¤    
-vsquid:S3776ї"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(№╥┐╠∙    8╬жеп -
-osquid:UnusedPrivateMethodТ"BRemove this unused private "reverseGeocodeLatLonToAddress" method.(╗пн┌8╬жеп -
-[squid:S1854╬"<Remove this useless assignment to local variable "startPos".(МЫЁЇ8╬жеп -
-psquid:S00117┬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ї╡╨%8╬жеп -
-Ysquid:S1141щ"5Extract this nested try block into a separate method.(б╗в№∙    8╬жеп -
-jsquid:S2259ш"K"NullPointerException" will be thrown when invoking method "splitLatLon()".(МЫЁЇ8╬жеп -
-░%squid:RedundantThrowsDeclarationCheckд"rRemove the declaration of thrown exception 'java.security.InvalidParameterException' which is a runtime exception.(╖З╩Д°    8╬жеп -
-Isquid:S00108я")Either remove or fill this block of code.(╖б╠═8╬жеп -
-Ysquid:S1141н"5Extract this nested try block into a separate method.(б╗в№∙    8╬жеп -
->squid:S1068'"'Remove this unused "TAG" private field.(п╙Гж
-isquid:CommentedOutCodeLine╝"<This block of commented-out lines of code should be removed.(╢¤Зt8╬жеп -
-Лsquid:S1488ц"gImmediately return this expression instead of assigning it to the temporary variable "applicationName".(ёЎЎж■    8╬жеп -
-qsquid:S3776╡"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(зс╜█8╬жеп -
-qsquid:S00117Ь"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(г╧Е█8╬жеп -
-jsquid:S2259в
-"K"NullPointerException" will be thrown when invoking method "splitLatLon()".(ўНЪ╡8╬жеп -
-}squid:S2293╡"YReplace the type specification in this constructor call with the diamond operator ("<>").(№╟▄Е¤    8╬жеп -
-qsquid:S3776╗"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(√Ю┴╪8╬жеп -
-vsquid:S3776ъ"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(∙еёр°    8╬жеп -
-ksquid:S1192ц"GDefine a constant instead of duplicating this literal " from" 11 times.(М╥╞х¤    8╬жеп -
-wsquid:S1192Я"SDefine a constant instead of duplicating this literal " by transportMode=" 4 times.(∙╣╔с¤    8╬жеп -
-vsquid:S3776О"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(╡ЁАЖ°    8╬жеп -
-Рsquid:S1192я"qDefine a constant instead of duplicating this literal "Unable to geocode start address to coordinates: " 8 times.(┘ї╪л8╬жеп -

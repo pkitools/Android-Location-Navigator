@@ -86,4 +86,3 @@ lint/tmp/
 /.idea/
 app/libs/
 library/libs/
-library/src/main/java/tools/pki/library/
