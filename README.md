@@ -1,4 +1,5 @@
 # Android Location Navigator
+[![](https://jitpack.io/v/pkitools/Android-Location-Navigator.svg)](https://jitpack.io/#pkitools/Android-Location-Navigator)
 An open source and free android library supporting all major navigation apps to get directions and location on several apps.
 
 Note: this isn't another location finder or travel library it only facilitates usage of existing libraries
