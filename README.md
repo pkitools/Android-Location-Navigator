@@ -13,12 +13,23 @@ You can clone and checkout master branch of this library and use as a library mo
 ## Setup
 
 1- Add jitpack repositories
+```
 allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
 		}
 	}
+```
+
+Add	gradle dependency
+```
+<dependency>
+	    <groupId>com.github.pkitools</groupId>
+	    <artifactId>Android-Location-Navigator</artifactId>
+	    <version>{Tag/VERSION}</version>
+	</dependency>
+```
 	
 After setting up the library, have a look at ```LaunchNavigator``` class. It is the facade for all functionality of this library
 
