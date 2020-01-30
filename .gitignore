@@ -83,3 +83,7 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+/.idea/
+app/libs/
+library/libs/
+library/src/main/java/tools/pki/library/
