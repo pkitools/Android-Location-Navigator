@@ -35,6 +35,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable = false
+            jniDebuggable = false
+            renderscriptDebuggable = false
+            versionNameSuffix = '1.'
         }
     }
 
@@ -46,6 +50,6 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.14.6'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.3.1'
 
 }
