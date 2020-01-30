@@ -13,6 +13,10 @@ You can clone and checkout master branch of this library and use as a library mo
 
 After setting up the library, have a look at '''LocationNavigator''' class. It is the facade for all functions of this library
 
+## Permission
+We need network permission to check if you are connected for our Geo and reverse Geo Coding
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
 ## Navigation parameters
 Navigation parameter is the property sent to '''LocationNavigator''' specifying details of a trip including
