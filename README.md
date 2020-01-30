@@ -1,4 +1,5 @@
 # Android Location Navigator
+[![](https://jitpack.io/v/pkitools/Android-Location-Navigator.svg)](https://jitpack.io/#pkitools/Android-Location-Navigator)
 An open source and free android library supporting all major navigation apps to get directions and location on several apps.
 
 Note: this isn't another location finder or travel library it only facilitates usage of existing libraries
@@ -11,12 +12,22 @@ You can clone and checkout master branch of this library and use as a library mo
 
 ## Setup
 
+1- Add jitpack repositories
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+	
 After setting up the library, have a look at ```LaunchNavigator``` class. It is the facade for all functionality of this library
 
-```
-    LaunchNavigator navigator = LaunchNavigator.with(context);
-    NavigationParameter parameter = NavigationParameter.builder().app(LaunchNavigator.WAZE).destination(Position.builder().latitude(Double.toString(locationBox.getLatitude())).longitude(Double.toString(locationBox.getLongitude())).build()).build();
-                           navigator.navigate(parameter);
+```java
+LaunchNavigator navigator = LaunchNavigator.with(context);
+NavigationParameter parameter = NavigationParameter.builder().app(LaunchNavigator.WAZE)
+                                    .destination(Position.builder().latitude(Double.toString(locationBox.getLatitude())).longitude(Double.toString(locationBox.getLongitude()))
+                                    .build()).build(); 
+navigator.navigate(parameter);
 ```
 
 ## Permission
