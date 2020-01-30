@@ -6,12 +6,18 @@ Note: this isn't another location finder or travel library it only facilitates u
 
 
 #How to use
+You can clone and checkout master branch of this library and use as a library module in your IDE
 
 
 ## Setup
-You can clone and checkout master branch of this library and use as a library module in your IDE
 
-After setting up the library, have a look at '''LocationNavigator''' class. It is the facade for all functions of this library
+After setting up the library, have a look at ```LaunchNavigator``` class. It is the facade for all functionality of this library
+
+```
+    LaunchNavigator navigator = LaunchNavigator.with(context);
+    NavigationParameter parameter = NavigationParameter.builder().app(LaunchNavigator.WAZE).destination(Position.builder().latitude(Double.toString(locationBox.getLatitude())).longitude(Double.toString(locationBox.getLongitude())).build()).build();
+                           navigator.navigate(parameter);
+```
 
 ## Permission
 We need network permission to check if you are connected for our Geo and reverse Geo Coding
@@ -31,9 +37,20 @@ You can Setup a destination and start position for navigation.
 #### Position Type
 You can add a position based on latitude/longitude, title of place or address of it.
 
+#### Geocoding
+
+Geocodes will use google maps API to convert an address to latitude / longitude and reverse
+
+By default Geo Coding is enabled you can disable it by calling
+```LaunchNavigator.withoutGeoCoding()```
+
 
 ### Traveling Method
-Drive, Bicycle, Walk, Public transport are supported navigation methods.
+Supported navigation methods are : 
+- Drive 
+- Bicycle
+- Walk
+- Public transport 
 
 #### Navigation App 
 You can specify your favourite app in the parameter.
@@ -42,10 +59,20 @@ You can specify your favourite app in the parameter.
 You can get list of apps supported by calling 
 '''getSupportedApps'''
 Currently we support most of known navigation providers but please feel free to request if your favourite app is not in list
-
-- Google map
-- Waze
+- Google Maps
+- Citymapper
 - Uber
+- Waze
+- Yandex Navigator
+- Sygic
+- HERE Maps
+- Moovit
+- Lyft
+- MAPS.ME
+- Cabify
+- Baidu Maps
+- 99 Taxi
+- Gaode Maps (Amap)
 
 
 #### Available Apps

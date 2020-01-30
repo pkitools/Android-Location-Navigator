@@ -101,7 +101,16 @@ public class LaunchNavigator {
      * Internal properties
      **********************/
 
-    private boolean geocodingEnabled = true;
+    public LaunchNavigator withGeoCoding(){
+        this.geocodingEnabled = true;
+        return this;
+    }
+
+    public LaunchNavigator withoutGeoCoding(){
+        this.geocodingEnabled = false;
+        return this;
+    }
+    private boolean geocodingEnabled = false;
 
     public LaunchNavigator withPackageManager(PackageManager packageManager){
         this.packageManager = packageManager;
@@ -147,7 +156,7 @@ public class LaunchNavigator {
     }
 
 
-    public LaunchNavigator(Context context) {
+    private LaunchNavigator(Context context) {
         this(context, new AndroidLogger(), false);
     }
 

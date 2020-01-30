@@ -38,12 +38,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/library/src/main/java/tools/pki/aln/NavigationParameter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/library/src/main/java/tools/pki/aln/Position.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/library/src/main/java/tools/pki/aln/StringUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../Codes/AndroidLocationNavigator/src/main/java/tools/pki/aln/NavigationParameter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../Codes/AndroidLocationNavigator/src/main/java/tools/pki/aln/NavigationParameterBuilder.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../Codes/AndroidLocationNavigator/src/main/java/tools/pki/aln/Position.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../Codes/AndroidLocationNavigator/src/main/java/tools/pki/aln/PositionBuilder.java">
           <value>
             <set />
           </value>
