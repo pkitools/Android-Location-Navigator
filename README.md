@@ -1,5 +1,8 @@
 # Android Location Navigator
+
 [![](https://jitpack.io/v/pkitools/Android-Location-Navigator.svg)](https://jitpack.io/#pkitools/Android-Location-Navigator)
+
+
 An open source and free android library supporting all major navigation apps to get directions and location on several apps.
 
 Note: this isn't another location finder or travel library it only facilitates usage of existing libraries
@@ -20,15 +23,16 @@ allprojects {
 			maven { url 'https://jitpack.io' }
 		}
 	}
+}
 ```
 
 Add	gradle dependency
 ```
 <dependency>
-	    <groupId>com.github.pkitools</groupId>
-	    <artifactId>Android-Location-Navigator</artifactId>
-	    <version>{Tag/VERSION}</version>
-	</dependency>
+    <groupId>com.github.pkitools</groupId>
+    <artifactId>Android-Location-Navigator</artifactId>
+    <version>{Tag/VERSION}</version>
+</dependency>
 ```
 	
 After setting up the library, have a look at ```LaunchNavigator``` class. It is the facade for all functionality of this library
