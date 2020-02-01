@@ -78,6 +78,14 @@ Supported navigation methods are :
 - Walk
 - Public transport 
 
+### Navigation Mode
+
+- Turn By Turn
+Turn-by-turn Navigation is a feature of some GPS navigation devices where directions for a selected route are continually presented to the user in the form of spoken or visual instructions.
+Use this mode to get directions to the address or coordinate specified. Directions are always given from the user's current location.
+-GEO
+
+
 #### Navigation App 
 You can specify your favourite app in the parameter.
 
@@ -104,6 +112,8 @@ Currently we support most of known navigation providers but please feel free to 
 #### Available Apps
 List of apps that are installed in user's device and are supported by the library
 
+#### Running App chooser
+If you don't specify app, it will show you the app chooser
 
 
 

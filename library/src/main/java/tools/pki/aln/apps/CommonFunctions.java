@@ -19,8 +19,6 @@ package tools.pki.aln.apps;
 // Created by  on 2020-01-31.
 //
 
-import android.content.Intent;
-
 import java.security.InvalidParameterException;
 import java.util.Map;
 
@@ -30,7 +28,12 @@ import tools.pki.aln.Position;
 
 public abstract class CommonFunctions {
 
-    ILogger logger;
+
+   final   ILogger logger;
+
+    protected CommonFunctions(ILogger logger) {
+        this.logger = logger;
+    }
 
     String getLocationFromPos(Position position) {
         String location;
@@ -56,14 +59,14 @@ public abstract class CommonFunctions {
 
 
      String parseExtrasToUrl(NavigationParameter params) {
-        String extras = null;
-        if (params.getExtras() != null) {
-            for (Map.Entry<String, String> entry : params.getExtras().entrySet()) {
+         if (params.getExtras() != null) {
+             StringBuilder extras = new StringBuilder();
+             for (Map.Entry<String, String> entry : params.getExtras().entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
-                extras += "&" + key + "=" + value;
+                extras.append("&").append(key).append("=").append(value);
             }
-            return extras;
+            return extras.toString();
         }
         return "";
     }

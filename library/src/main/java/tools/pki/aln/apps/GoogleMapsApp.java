@@ -22,6 +22,7 @@ package tools.pki.aln.apps;
 import android.content.Intent;
 import android.net.Uri;
 
+import tools.pki.aln.ILogger;
 import tools.pki.aln.NavigationApplications;
 import tools.pki.aln.NavigationParameter;
 import tools.pki.aln.NavigatorApp;
@@ -36,10 +37,14 @@ public class GoogleMapsApp extends CommonFunctions implements NavigatorApp {
     private  static final String MAPS_PROTOCOL = "http://maps.google.com/maps?";
     private  static final String TURN_BY_TURN_PROTOCOL = "google.navigation:";
 
+    public GoogleMapsApp(ILogger logger) {
+        super(logger);
+    }
+
     @Override
     public Intent go(NavigationParameter params) {
         String destination;
-        String start = null;
+        String start;
 
         destination = parsePosition(params.getDestination());
 

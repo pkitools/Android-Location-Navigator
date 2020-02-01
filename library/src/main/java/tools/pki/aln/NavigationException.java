@@ -15,12 +15,12 @@
  */
 
 package tools.pki.aln;
-//
-// Created by  on 2020-01-31.
-//
 
-import android.content.Intent;
-
-public interface NavigatorApp {
-    public Intent go(NavigationParameter parameter) throws NavigationException;
+public class NavigationException extends Exception {
+    public NavigationException(String s) {
+        super(s);
+    }
+    public NavigationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

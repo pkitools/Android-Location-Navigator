@@ -22,38 +22,57 @@ package tools.pki.aln.apps;
 import android.content.Intent;
 import android.net.Uri;
 
+import tools.pki.aln.GeoCoder;
 import tools.pki.aln.ILogger;
+import tools.pki.aln.NavigationApplications;
+import tools.pki.aln.NavigationException;
 import tools.pki.aln.NavigationParameter;
 import tools.pki.aln.NavigatorApp;
 import tools.pki.aln.Position;
 
-public class WazeApp extends CommonFunctions implements NavigatorApp {
+import static tools.pki.aln.NavigationApplications.SYGIC;
 
-    public WazeApp(ILogger logger) {
+public class SygicApp extends CommonFunctions implements NavigatorApp {
+
+    private final GeoCoder geoCoder;
+
+    public SygicApp(GeoCoder geoCoder, ILogger logger) {
         super(logger);
+        this.geoCoder = geoCoder;
     }
 
     @Override
-    public Intent go(NavigationParameter params) {
+    public Intent go(NavigationParameter params) throws NavigationException {
         String destAddress = null;
         String destLatLon = null;
+
+        String url = NavigationApplications.getPackage(SYGIC) + "://coordinate|";
+        String logMsg = "Using Sygic to navigate to";
+        String transportMode = null;
+        if (params.getTransportMode() == NavigationParameter.TransportMode.WALKING) {
+            transportMode = "walk";
+        } else {
+            transportMode = "drive";
+        }
+
         if (params.getDestination().getType() == Position.Type.NAME) {
             destAddress = getLocationFromName(params.getDestination());
+            logMsg += " '" + destAddress + "'";
+            try {
+                destLatLon = geoCoder.geocodeAddressToLatLon(params.getDestination().getAddress());
+            } catch (Exception e) {
+                throw new NavigationException("Unable to geocode getDestination() address to coordinates ", e);
+            }
         } else {
             destLatLon = getLocationFromPos(params.getDestination());
         }
-        String url = "waze://?";
-        String logMsg = "Using Waze to navigate to";
-        if (!StringUtil.isEmpty(destLatLon)) {
-            url += "ll=" + destLatLon;
-            logMsg += " [" + destLatLon + "]";
-        } else {
-            url += "q=" + destAddress;
-            logMsg += " '" + destAddress + "'";
-        }
-        url += "&navigate=yes";
 
-        logMsg += " from current location";
+        logMsg += " [" + destLatLon + "]";
+
+        String[] pos = splitLatLon(destLatLon);
+        url += pos[1] + "|" + pos[0] + "|" + transportMode;
+
+        logMsg += " by " + transportMode;
 
         String extras = parseExtrasToUrl(params);
         if (!StringUtil.isEmpty(extras)) {
@@ -64,6 +83,5 @@ public class WazeApp extends CommonFunctions implements NavigatorApp {
         logger.debug(logMsg);
         logger.debug("URI: " + url);
         return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-
     }
 }

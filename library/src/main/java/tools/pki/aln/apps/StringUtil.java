@@ -22,8 +22,7 @@ import android.widget.TextView;
 import java.util.UUID;
 
 
-class StringUtil {
-	private static final String TAG = " StringUtil" ;
+public class StringUtil {
 	private static String currentString = "" ;
 
 	private StringUtil() {

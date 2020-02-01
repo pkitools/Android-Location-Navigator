@@ -30,13 +30,28 @@ import java.util.List;
 import java.util.Map;
 
 public class NavigationApplications {
-    protected final String GEO_URI = "GEO:";
+    public static final String GEO_URI = "GEO:";
 
-    NavigationApplications() {
+   private NavigationApplications() {
+        supportedAppNames.put(GOOGLE_MAPS, "Google Maps");
+        supportedAppNames.put(CITYMAPPER, "Citymapper");
+        supportedAppNames.put(UBER, "Uber");
+        supportedAppNames.put(WAZE, "Waze");
+        supportedAppNames.put(YANDEX, "Yandex Navigator");
+        supportedAppNames.put(SYGIC, "Sygic");
+        supportedAppNames.put(HERE_MAPS, "HERE Maps");
+        supportedAppNames.put(MOOVIT, "Moovit");
+        supportedAppNames.put(LYFT, "Lyft");
+        supportedAppNames.put(MAPS_ME, "MAPS.ME");
+        supportedAppNames.put(CABIFY, "Cabify");
+        supportedAppNames.put(BAIDU, "Baidu Maps");
+        supportedAppNames.put(TAXIS_99, "99 Taxi");
+        supportedAppNames.put(GAODE, "Gaode Maps (Amap)");
 
     }
 
     NavigationApplications(Context context) {
+        this();
         setContext(context);
         discoverAvailableApps();
     }
@@ -67,7 +82,7 @@ public class NavigationApplications {
     public static final String GAODE = "gaode";
     // Explicitly supported apps
     protected static final String GEO = "GEO"; // Use native app choose for GEO: intent
-    static final Map<String, String> supportedAppPackages = Collections.unmodifiableMap(new HashMap<String, String>() {
+    private static final Map<String, String> supportedAppPackages = Collections.unmodifiableMap(new HashMap<String, String>() {
         {
             put(GOOGLE_MAPS, "com.google.android.apps.maps");
             put(CITYMAPPER, "com.citymapper.app.release");
@@ -85,29 +100,13 @@ public class NavigationApplications {
             put(GAODE, "com.autonavi.minimap");
         }
     });
-    public static String getPackage(String applicationName){
+
+    public static String getPackage(String applicationName) {
         return supportedAppPackages.get(applicationName);
 
     }
-    protected final Map<String, String> supportedAppNames = Collections.unmodifiableMap(new HashMap<String, String>() {
-        {
-            put(GOOGLE_MAPS, "Google Maps");
-            put(CITYMAPPER, "Citymapper");
-            put(UBER, "Uber");
-            put(WAZE, "Waze");
-            put(YANDEX, "Yandex Navigator");
-            put(SYGIC, "Sygic");
-            put(HERE_MAPS, "HERE Maps");
-            put(MOOVIT, "Moovit");
-            put(LYFT, "Lyft");
-            put(MAPS_ME, "MAPS.ME");
-            put(CABIFY, "Cabify");
-            put(BAIDU, "Baidu Maps");
-            put(TAXIS_99, "99 Taxi");
-            put(GAODE, "Gaode Maps (Amap)");
-        }
-    });
 
+    private final Map<String, String> supportedAppNames = new HashMap<>();
 
     Context context;
     PackageManager packageManager;
@@ -141,7 +140,7 @@ public class NavigationApplications {
     protected void discoverAvailableApps() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(GEO_URI));
         List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(intent, 0);
-        availableApps = new HashMap<String, String>();
+        availableApps = new HashMap<>();
         for (ResolveInfo resolveInfo : resolveInfoList) {
             String packageName = resolveInfo.activityInfo.packageName;
             String appName = getAppName(packageName);
@@ -152,11 +151,10 @@ public class NavigationApplications {
 
         // Check if explicitly supported apps are installed
         for (Map.Entry<String, String> entry : supportedAppPackages.entrySet()) {
-            String _appName = entry.getKey();
-            String _packageName = entry.getValue();
-            if (isPackageInstalled(_packageName, packageManager)) {
-                availableApps.put(supportedAppNames.get(_appName), _packageName);
-            } else {
+            String selectedAppName = entry.getKey();
+            String selectedPackageName = entry.getValue();
+            if (isPackageInstalled(selectedPackageName, packageManager)) {
+                availableApps.put(supportedAppNames.get(selectedAppName), selectedPackageName);
             }
         }
     }
@@ -168,8 +166,7 @@ public class NavigationApplications {
         } catch (final PackageManager.NameNotFoundException e) {
             ai = null;
         }
-        final String applicationName = (String) (ai != null ? packageManager.getApplicationLabel(ai) : null);
-        return applicationName;
+        return (String) (ai != null ? packageManager.getApplicationLabel(ai) : null);
     }
 
     public String getThisAppName() {
@@ -186,7 +183,7 @@ public class NavigationApplications {
         }
     }
 
-    public List<String> getSupportedApps() {
+    public ArrayList getSupportedApps() {
         Map<String, Boolean> apps = new HashMap<>();
         ArrayList list = new ArrayList();
         // Add explicitly supported apps first
@@ -229,4 +226,19 @@ public class NavigationApplications {
     }
 
 
+    public String getAppDisplayName(String packageName) {
+        String name = "[Not found]";
+        if (packageName.equals(GEO)) {
+            return "[Native chooser]";
+        }
+        for (Map.Entry<String, String> entry : availableApps.entrySet()) {
+            String appName = entry.getKey();
+            String availablePackageName = entry.getValue();
+            if (packageName.equals(availablePackageName)) {
+                name = appName;
+                break;
+            }
+        }
+        return name;
+    }
 }

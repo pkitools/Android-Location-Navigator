@@ -33,6 +33,7 @@ public class GeoCoder {
     private OkHttpClient httpClient = new OkHttpClient();
     private String googleApiKey;
 
+
     public GeoCoder(String googleApiKey) {
         this.googleApiKey = googleApiKey;
     }
@@ -75,8 +76,6 @@ public class GeoCoder {
 
     public String reverseGeocodeLatLonToAddress(String latLon) throws JSONException, IOException {
         String result;
-        String errMsg = "Unable to reverse geocode address from coords '" + latLon;
-
         JSONObject oResponse = doGeocode("latlng=" + latLon);
         result = oResponse.getString("formatted_address");
         return result;
