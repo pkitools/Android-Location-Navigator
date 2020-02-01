@@ -13,28 +13,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
-
-
-//Step II: Add the below publish details
-publish {
-
-    def groupProjectID = 'tools.pki.aln'
-    def artifactProjectID = 'tools.pki.aln'
-    def publishVersionID = '0.0.1'
-
-    userOrg = 'pki'
-    repoName = 'AndroidLocationNavigator'
-    groupId = groupProjectID
-    artifactId = artifactProjectID
-    publishVersion = publishVersionID
-    desc = 'Android library to navigate to any location with any app.'
-    website = 'https://pki.tools'
-}
-
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+group='com.github.pkitools'
 
 buildscript {
     repositories {
@@ -44,7 +26,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
-        classpath 'com.novoda:bintray-release:0.8.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1' // Add this line
+
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
