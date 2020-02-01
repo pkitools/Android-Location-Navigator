@@ -87,13 +87,17 @@ public class NavigationParameter {
     LaunchMode launchMode;
     Map<String, String> extras;
 
-    enum LaunchMode {
-        GEO, TURN_BY_TURN;
+    public enum LaunchMode {
+        GEO,
+        TURN_BY_TURN;
     }
 
-    enum TransportMode{
+    public enum TransportMode{
         DRIVING("d"),WALKING("w"),BICYCLE("b"), TRANSIT("t");
         String abbreviation;
+        public String getAbbreviation() {
+            return abbreviation;
+        }
 
         TransportMode(String d) {
             abbreviation = d;
