@@ -1,5 +1,6 @@
 # Android Location Navigator
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/27962ed9c10145a7941dabb9c88e95d8)](https://app.codacy.com/gh/pkitools/Android-Location-Navigator?utm_source=github.com&utm_medium=referral&utm_content=pkitools/Android-Location-Navigator&utm_campaign=Badge_Grade_Dashboard)
 [![](https://jitpack.io/v/pkitools/Android-Location-Navigator.svg)](https://jitpack.io/#pkitools/Android-Location-Navigator)
 
 
