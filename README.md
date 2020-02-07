@@ -17,7 +17,7 @@ You can clone and checkout master branch of this library and use as a library mo
 ## Setup
 
 1- Add jitpack repositories
-```
+```gradle
 allprojects {
 		repositories {
 			...
@@ -28,7 +28,7 @@ allprojects {
 ```
 
 Add	gradle dependency
-```
+```xml
 <dependency>
     <groupId>com.github.pkitools</groupId>
     <artifactId>Android-Location-Navigator</artifactId>
@@ -38,7 +38,7 @@ Add	gradle dependency
 	
 After setting up the library, have a look at ```LaunchNavigator``` class. It is the facade for all functionality of this library
 
-```java
+```android
 LaunchNavigator navigator = LaunchNavigator.with(context);
 NavigationParameter parameter = NavigationParameter.builder().app(LaunchNavigator.WAZE)
                                     .destination(Position.builder().latitude(Double.toString(locationBox.getLatitude())).longitude(Double.toString(locationBox.getLongitude()))
