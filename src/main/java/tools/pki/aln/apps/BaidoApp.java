@@ -114,8 +114,8 @@ public class BaidoApp extends CommonFunctions implements NavigatorApp {
         logMsg += " - extras=" + extras;
 
 
-        logger.debug(logMsg);
-        logger.debug("URI: " + url);
+        debug(logMsg);
+        debug("URI: " + url);
 
         Intent intent = new Intent();
         intent.setData(Uri.parse(url));

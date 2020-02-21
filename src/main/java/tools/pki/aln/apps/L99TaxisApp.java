@@ -126,8 +126,8 @@ public class L99TaxisApp extends CommonFunctions implements NavigatorApp {
         url += extras;
         logMsg += " - extras=" + extras;
 
-        logger.debug(logMsg);
-        logger.debug("URI: " + url);
+        debug(logMsg);
+        debug("URI: " + url);
 
         Intent intent = new Intent();
         intent.setData(Uri.parse(url));

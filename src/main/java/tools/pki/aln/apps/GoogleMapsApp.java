@@ -77,8 +77,8 @@ public class GoogleMapsApp extends CommonFunctions implements NavigatorApp {
             url += extras;
             logMsg += " - extras=" + extras;
         }
-        logger.debug(logMsg);
-        logger.debug("URI: " + url);
+        debug(logMsg);
+        debug("URI: " + url);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.setClassName(NavigationApplications.getPackage(GOOGLE_MAPS), "com.google.android.maps.MapsActivity");
         return intent;

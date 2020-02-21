@@ -32,6 +32,11 @@ public class NavigationParameter {
         this.extras = extras;
     }
 
+    public static NavigationParameterBuilder builder() {
+        return new NavigationParameterBuilder();
+    }
+
+
     public String getApp() {
         return app;
     }
@@ -86,6 +91,18 @@ public class NavigationParameter {
     TransportMode transportMode;
     LaunchMode launchMode;
     Map<String, String> extras;
+
+    @Override
+    public String toString() {
+        return "NavigationParameter{" +
+                "app='" + app + '\'' +
+                ", destination=" + destination +
+                ", start=" + start +
+                ", transportMode=" + transportMode +
+                ", launchMode=" + launchMode +
+                ", extras=" + extras +
+                '}';
+    }
 
     public enum LaunchMode {
         GEO,

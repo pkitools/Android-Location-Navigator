@@ -63,7 +63,7 @@ public class GaodeApp extends CommonFunctions implements NavigatorApp {
         }
 
         if (!extras.contains("sourceApplication=")) {
-            extras += "&sourceApplication=" + Uri.encode(NavigationApplications.with(context).getThisAppName());
+            extras += "&sourceApplication=" + Uri.encode(new NavigationApplications(context,logger).getThisAppName());
         }
 
         // Destination
@@ -147,12 +147,13 @@ public class GaodeApp extends CommonFunctions implements NavigatorApp {
         logMsg += " - extras=" + extras;
 
 
-        logger.debug(logMsg);
-        logger.debug("URI: " + url);
+        debug(logMsg);
+        debug("URI: " + url);
 
         Intent intent = new Intent();
         intent.setData(Uri.parse(url));
         return (intent);
-
     }
+
+
 }

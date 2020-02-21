@@ -24,47 +24,20 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class NavigationApplications {
     public static final String GEO_URI = "GEO:";
-
-   private NavigationApplications() {
-        supportedAppNames.put(GOOGLE_MAPS, "Google Maps");
-        supportedAppNames.put(CITYMAPPER, "Citymapper");
-        supportedAppNames.put(UBER, "Uber");
-        supportedAppNames.put(WAZE, "Waze");
-        supportedAppNames.put(YANDEX, "Yandex Navigator");
-        supportedAppNames.put(SYGIC, "Sygic");
-        supportedAppNames.put(HERE_MAPS, "HERE Maps");
-        supportedAppNames.put(MOOVIT, "Moovit");
-        supportedAppNames.put(LYFT, "Lyft");
-        supportedAppNames.put(MAPS_ME, "MAPS.ME");
-        supportedAppNames.put(CABIFY, "Cabify");
-        supportedAppNames.put(BAIDU, "Baidu Maps");
-        supportedAppNames.put(TAXIS_99, "99 Taxi");
-        supportedAppNames.put(GAODE, "Gaode Maps (Amap)");
-
-    }
-
-    NavigationApplications(Context context) {
-        this();
-        setContext(context);
-        discoverAvailableApps();
-    }
-
-    public static NavigationApplications with(Context context) {
-        return new NavigationApplications(context);
-    }
-
-    void setContext(Context context) {
-        this.context = context;
-        packageManager = context.getApplicationContext().getPackageManager();
-    }
-
+    private final Map<String, String> supportedAppNames = new HashMap<>();
+    /**
+     * Name/Package map
+     */
+    private static final Map<String, String> supportedAppPackages = new HashMap<>();
+    Context context;
+    ILogger logger;
+    PackageManager packageManager;
 
     public static final String GOOGLE_MAPS = "google_maps";
     public static final String CITYMAPPER = "citymapper";
@@ -82,79 +55,103 @@ public class NavigationApplications {
     public static final String GAODE = "gaode";
     // Explicitly supported apps
     protected static final String GEO = "GEO"; // Use native app choose for GEO: intent
-    private static final Map<String, String> supportedAppPackages = Collections.unmodifiableMap(new HashMap<String, String>() {
-        {
-            put(GOOGLE_MAPS, "com.google.android.apps.maps");
-            put(CITYMAPPER, "com.citymapper.app.release");
-            put(UBER, "com.ubercab");
-            put(WAZE, "com.waze");
-            put(YANDEX, "ru.yandex.yandexnavi");
-            put(SYGIC, "com.sygic.aura");
-            put(HERE_MAPS, "com.here.app.maps");
-            put(MOOVIT, "com.tranzmate");
-            put(LYFT, "me.lyft.android");
-            put(MAPS_ME, "com.mapswithme.maps.pro");
-            put(CABIFY, "com.cabify.rider");
-            put(BAIDU, "com.baidu.BaiduMap");
-            put(TAXIS_99, "com.taxis99");
-            put(GAODE, "com.autonavi.minimap");
-        }
-    });
+
+
+    private NavigationApplications() {
+        supportedAppNames.put(GOOGLE_MAPS, "Google Maps");
+        supportedAppNames.put(CITYMAPPER, "Citymapper");
+        supportedAppNames.put(UBER, "Uber");
+        supportedAppNames.put(WAZE, "Waze");
+        supportedAppNames.put(YANDEX, "Yandex Navigator");
+        supportedAppNames.put(SYGIC, "Sygic");
+        supportedAppNames.put(HERE_MAPS, "HERE Maps");
+        supportedAppNames.put(MOOVIT, "Moovit");
+        supportedAppNames.put(LYFT, "Lyft");
+        supportedAppNames.put(MAPS_ME, "MAPS.ME");
+        supportedAppNames.put(CABIFY, "Cabify");
+        supportedAppNames.put(BAIDU, "Baidu Maps");
+        supportedAppNames.put(TAXIS_99, "99 Taxi");
+        supportedAppNames.put(GAODE, "Gaode Maps (Amap)");
+        supportedAppPackages.put(GOOGLE_MAPS, "com.google.android.apps.maps");
+        supportedAppPackages.put(CITYMAPPER, "com.citymapper.app.release");
+        supportedAppPackages.put(UBER, "com.ubercab");
+        supportedAppPackages.put(WAZE, "com.waze");
+        supportedAppPackages.put(YANDEX, "ru.yandex.yandexnavi");
+        supportedAppPackages.put(SYGIC, "com.sygic.aura");
+        supportedAppPackages.put(HERE_MAPS, "com.here.app.maps");
+        supportedAppPackages.put(MOOVIT, "com.tranzmate");
+        supportedAppPackages.put(LYFT, "me.lyft.android");
+        supportedAppPackages.put(MAPS_ME, "com.mapswithme.maps.pro");
+        supportedAppPackages.put(CABIFY, "com.cabify.rider");
+        supportedAppPackages.put(BAIDU, "com.baidu.BaiduMap");
+        supportedAppPackages.put(TAXIS_99, "com.taxis99");
+        supportedAppPackages.put(GAODE, "com.autonavi.minimap");
+
+    }
+
+
+    public NavigationApplications(Context context, ILogger logger) {
+        this();
+        setContext(context);
+        discoverAllGeoApps();
+        this.logger = logger;
+    }
+
+    static NavigationApplications with(Context context) {
+        return new NavigationApplications(context, null);
+    }
+
+    void setContext(Context context) {
+        this.context = context;
+        packageManager = context.getApplicationContext().getPackageManager();
+    }
+
 
     public static String getPackage(String applicationName) {
         return supportedAppPackages.get(applicationName);
 
     }
 
-    private final Map<String, String> supportedAppNames = new HashMap<>();
-
-    Context context;
-    PackageManager packageManager;
 
     // Map of app name to package name
-    protected Map<String, String> availableApps;
-    List<String> supportedApps;
+    protected Map<String, NavigationAppInfo> installedGeoApps;
 
 
-    public Map<String, Boolean> getAvailableApps() {
-        Map<String, Boolean> apps = new HashMap<>();
-
-        // Add explicitly supported apps first
-        for (Map.Entry<String, String> entry : supportedAppPackages.entrySet()) {
-            String appName = entry.getKey();
-            String packageName = entry.getValue();
-            apps.put(appName, availableApps.containsValue(packageName));
-        }
-
-        // Iterate over available apps and add any dynamically discovered ones
-        for (Map.Entry<String, String> entry : availableApps.entrySet()) {
-            String packageName = entry.getValue();
-            // If it's not already present
-            if (!apps.containsKey(packageName) && !supportedAppPackages.containsValue(packageName)) {
-                apps.put(packageName, true);
-            }
-        }
-        return apps;
+    /**
+     * All applications with indicator that they are installed and supported or not
+     *
+     * @return map of app name and application status
+     */
+    public Map<String, NavigationAppInfo> all() {
+        return installedGeoApps;
     }
 
-    protected void discoverAvailableApps() {
+    /**
+     * Get All GEO apps that are installed in phone it firstly adds the apps that are not in supported list and then checks if supported apps are present
+     */
+    protected void discoverAllGeoApps() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(GEO_URI));
         List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(intent, 0);
-        availableApps = new HashMap<>();
+        installedGeoApps = new HashMap<>();
         for (ResolveInfo resolveInfo : resolveInfoList) {
             String packageName = resolveInfo.activityInfo.packageName;
             String appName = getAppName(packageName);
-            if (!supportedAppPackages.containsValue(packageName)) { // if it's not already an explicitly supported app
-                availableApps.put(appName, packageName);
-            }
+            NavigationAppInfo navigationAppInfo = new NavigationAppBuilder().name(appName).friendlyName(appName).installed(true)
+                    .supported(supportedAppPackages.containsValue(packageName)).packageName(packageName).build();
+            installedGeoApps.put(appName, navigationAppInfo);
         }
 
         // Check if explicitly supported apps are installed
         for (Map.Entry<String, String> entry : supportedAppPackages.entrySet()) {
             String selectedAppName = entry.getKey();
+            String selectedFriendlyName = supportedAppNames.get(selectedAppName);
             String selectedPackageName = entry.getValue();
-            if (isPackageInstalled(selectedPackageName, packageManager)) {
-                availableApps.put(supportedAppNames.get(selectedAppName), selectedPackageName);
+
+            if (!installedGeoApps.containsKey(selectedAppName)) {
+                NavigationAppInfo navigationAppInfo = new NavigationAppBuilder().name(selectedAppName)
+                        .friendlyName(selectedFriendlyName).packageName(selectedPackageName)
+                        .supported(true).installed(isPackageInstalled(selectedPackageName, packageManager)).build();
+                installedGeoApps.put(selectedAppName, navigationAppInfo);
             }
         }
     }
@@ -183,62 +180,74 @@ public class NavigationApplications {
         }
     }
 
-    public ArrayList getSupportedApps() {
-        Map<String, Boolean> apps = new HashMap<>();
-        ArrayList list = new ArrayList();
-        // Add explicitly supported apps first
-        for (Map.Entry<String, String> entry : supportedAppPackages.entrySet()) {
-            String appName = entry.getKey();
-            String packageName = entry.getValue();
-            apps.put(appName, availableApps.containsValue(packageName));
-        }
 
-        // Iterate over available apps and add any dynamically discovered ones
-        for (Map.Entry<String, String> entry : availableApps.entrySet()) {
-            String packageName = entry.getValue();
-            // If it's not already present
-            if (!apps.containsKey(packageName) && !supportedAppPackages.containsValue(packageName)) {
-                list.add(packageName);
-            }
+    /**
+     * Provide list of apps supported or existing in this device
+     *
+     * @return map of friendly name and normal name
+     */
+    public List<String> installedAndSupported() {
+        List apps = new ArrayList();
+        for (Map.Entry<String, NavigationAppInfo> value : installedGeoApps.entrySet()) {
+            if (value.getValue().installed && value.getValue().supported)
+                apps.add(value.getValue().friendlyName);
         }
-        return list;
+        return apps;
+    }
+
+    /**
+     * Provide list of apps supported or existing in this device
+     *
+     * @return map of friendly name and normal name
+     */
+    public List<String> installed() {
+        List apps = new ArrayList();
+        for (Map.Entry<String, NavigationAppInfo> value : installedGeoApps.entrySet()) {
+            if (value.getValue().installed)
+                apps.add(value.getValue().friendlyName);
+        }
+        return apps;
     }
 
     public boolean isAppAvailable(String appName) {
         if (supportedAppPackages.containsKey(appName)) {
             appName = supportedAppPackages.get(appName);
         }
-        return availableApps.containsValue(appName);
+        NavigationAppInfo appInfo = installedGeoApps.get(appName);
+        if (appInfo == null)
+            return false;
+        return appInfo.installed;
     }
 
-    public Map<String, String> getGeoApps() {
-        HashMap<String, String> apps = new HashMap<>();
-        // Dynamically populate from discovered available apps that support GEO: protocol
-        for (Map.Entry<String, String> entry : availableApps.entrySet()) {
-            String appName = entry.getKey();
-            String packageName = entry.getValue();
-            // If it's not already an explicitly supported app
-            if (!supportedAppPackages.containsValue(packageName)) {
-                apps.put(appName, packageName);
-            }
+   public boolean installedAndSupported(String appName) {
+        if (supportedAppPackages.containsKey(appName)) {
+            appName = supportedAppPackages.get(appName);
         }
-        return apps;
+        NavigationAppInfo appInfo = installedGeoApps.get(appName);
+        if (appInfo == null)
+            return false;
+        return appInfo.installed && appInfo.supported;
     }
+
 
 
     public String getAppDisplayName(String packageName) {
+
         String name = "[Not found]";
-        if (packageName.equals(GEO)) {
+        if (packageName == null || packageName.equals(GEO)) {
             return "[Native chooser]";
         }
-        for (Map.Entry<String, String> entry : availableApps.entrySet()) {
-            String appName = entry.getKey();
-            String availablePackageName = entry.getValue();
-            if (packageName.equals(availablePackageName)) {
-                name = appName;
-                break;
+        for (Map.Entry<String, NavigationAppInfo> entry : installedGeoApps.entrySet()) {
+            NavigationAppInfo thisPackage = entry.getValue();
+            if (packageName.equals(thisPackage.packageName)) {
+                return thisPackage.friendlyName;
             }
         }
         return name;
+    }
+
+    void debug(String text) {
+        if (logger != null)
+            logger.debug(text);
     }
 }

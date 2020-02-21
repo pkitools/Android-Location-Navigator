@@ -70,5 +70,9 @@ public abstract class CommonFunctions {
         }
         return "";
     }
+    void debug(String text){
+        if (logger!=null)
+            logger.debug(text);
+    }
 
 }

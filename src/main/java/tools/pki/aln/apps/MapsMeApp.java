@@ -109,7 +109,7 @@ public class MapsMeApp extends CommonFunctions implements NavigatorApp {
             intent.putExtra("router", transportMode);
             logMsg += " by transportMode=" + transportMode;
         }
-        logger.debug(logMsg);
+        debug(logMsg);
         return (intent);
 
     }

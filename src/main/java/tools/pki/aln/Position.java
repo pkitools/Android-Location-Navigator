@@ -28,6 +28,10 @@ public class Position {
         this.nickName = nickName;
     }
 
+    public static PositionBuilder builder() {
+        return new PositionBuilder();
+    }
+
     public Type getType() {
         return type;
     }

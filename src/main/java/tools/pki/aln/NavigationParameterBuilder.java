@@ -56,7 +56,7 @@ public class NavigationParameterBuilder {
         return this;
     }
 
-    public NavigationParameter createNavigationParameter() {
+    public NavigationParameter build() {
         return new NavigationParameter(app, destination, start, transportMode, launchMode, extras);
     }
 }

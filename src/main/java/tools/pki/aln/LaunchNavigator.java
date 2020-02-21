@@ -17,12 +17,13 @@
 package tools.pki.aln;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import org.jetbrains.annotations.NotNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import tools.pki.aln.apps.BaidoApp;
 import tools.pki.aln.apps.CabifyApp;
@@ -35,95 +36,14 @@ import tools.pki.aln.apps.L99TaxisApp;
 import tools.pki.aln.apps.LyftApp;
 import tools.pki.aln.apps.MapsMeApp;
 import tools.pki.aln.apps.MoovitApp;
+import tools.pki.aln.apps.StringUtil;
 import tools.pki.aln.apps.SygicApp;
 import tools.pki.aln.apps.UberApp;
 import tools.pki.aln.apps.WazeApp;
 import tools.pki.aln.apps.YandexApp;
 
-import static tools.pki.aln.NavigationApplications.BAIDU;
-import static tools.pki.aln.NavigationApplications.CABIFY;
-import static tools.pki.aln.NavigationApplications.CITYMAPPER;
-import static tools.pki.aln.NavigationApplications.GAODE;
-import static tools.pki.aln.NavigationApplications.GOOGLE_MAPS;
-import static tools.pki.aln.NavigationApplications.HERE_MAPS;
-import static tools.pki.aln.NavigationApplications.LYFT;
-import static tools.pki.aln.NavigationApplications.MAPS_ME;
-import static tools.pki.aln.NavigationApplications.MOOVIT;
-import static tools.pki.aln.NavigationApplications.SYGIC;
-import static tools.pki.aln.NavigationApplications.TAXIS_99;
-import static tools.pki.aln.NavigationApplications.UBER;
-import static tools.pki.aln.NavigationApplications.WAZE;
-import static tools.pki.aln.NavigationApplications.YANDEX;
 
-
-public class LaunchNavigator {
-
-    /*******************
-     * Constructors
-     *******************/
-
-    private final Context context;
-
-    /**
-     * Lunch application with context and loger
-     * @param context it is complsary
-     * @param logger if null we will use default android logger otherwise you can implement your own way of loging
-     * @throws NavigationException error in parameters
-     */
-    public LaunchNavigator(Context context, ILogger logger) throws NavigationException {
-        this(context, logger, null);
-    }
-
-
-    /**
-     * To lunch app with geocoding enabled
-     * @param context
-     * @param logger
-     * @param apiKey
-     * @throws NavigationException
-     */
-    public LaunchNavigator(Context context, ILogger logger, String apiKey) throws NavigationException {
-        validateObject(context, "context");
-        this.context = context;
-
-        if (apiKey != null) {
-            this.geoCoder = new GeoCoder(apiKey);
-            geocodingEnabled = true;
-        }
-        this.logger = (logger);
-    }
-
-    private LaunchNavigator(Context context) throws NavigationException {
-        this(context, new AndroidLogger(), null);
-    }
-
-
-    public static LaunchNavigator with(Context context) throws NavigationException {
-        return new LaunchNavigator(context);
-    }
-
-
-    /**
-     * Call this if you don't want API calls for geocoding, Set API Key if you want to enable Geocoding
-     * @return
-     */
-    public LaunchNavigator withoutGeoCoding() {
-        this.geocodingEnabled = false;
-        return this;
-    }
-
-    /**
-     * Set GoogleApi Key if you are using places API
-     *
-     * @param googleApiKey
-     * @return
-     */
-
-    public LaunchNavigator apiKey(String googleApiKey) {
-        this.geoCoder = new GeoCoder(googleApiKey);
-        this.geocodingEnabled = true;
-        return this;
-    }
+public class LaunchNavigator extends NavigationApplications {
 
 
     /**********************
@@ -141,6 +61,94 @@ public class LaunchNavigator {
 
     private ILogger logger;
 
+    private NavigationParameter parameter;
+
+    private String appName;
+
+    /*******************
+     * Constructors
+     *******************/
+
+    /**
+     * To lunch app with geocoding enabled
+     *
+     * @param context this is required for checking installed apps and other context related stuffs
+     * @param logger used for logging info
+     * @param apiKey Google API key
+     * @throws NavigationException if invalid parameter is provided
+     */
+    public LaunchNavigator(@NonNull Context context,@Nullable ILogger logger,@Nullable String apiKey) throws NavigationException {
+        super(context,logger);
+        validateObject(context, "context");
+
+        if (apiKey != null) {
+            this.geoCoder = new GeoCoder(apiKey);
+            geocodingEnabled = true;
+        }
+        if (logger == null)
+            this.logger = new AndroidLogger();
+        else {
+            this.logger = (logger);
+        }
+    }
+
+    /**
+     * Lunch application with context and loger
+     *
+     * @param context it is compulsory
+     * @param logger  if null we will use default android logger otherwise you can implement your own way of loging
+     * @throws NavigationException error in parameters
+     */
+    public LaunchNavigator(@NonNull Context context, @Nullable ILogger logger) throws NavigationException {
+        this(context, logger, null);
+    }
+
+
+    /**
+     * Call if you are not using Geocoding
+     * @param context this is required for checking installed apps and other context related stuffs
+     * @throws NavigationException if invalid parameter is provided
+     */
+    private LaunchNavigator(@NonNull Context context) throws NavigationException {
+        this(context, new AndroidLogger(), null);
+    }
+
+
+    /**
+     *
+     * @param context get an instance for your context
+     * @return an instance of {@link LaunchNavigator}
+     * @throws NavigationException if invalid parameter is provided
+     */
+    public static LaunchNavigator withContext(@NonNull Context context) throws NavigationException {
+        return new LaunchNavigator(context);
+    }
+
+
+
+    /**
+     * Call this if you don't want API calls for geocoding, Set google API Key if you want to enable Geocoding
+     *
+     * @return an instance of {@link LaunchNavigator}
+     */
+    public LaunchNavigator withoutGeoCoding() {
+        this.geocodingEnabled = false;
+        return this;
+    }
+
+    /**
+     * Set GoogleApi Key if you are using places API
+     *
+     * @param googleApiKey key for places API
+     * @return an instance of {@link LaunchNavigator}
+     */
+    public LaunchNavigator apiKey(String googleApiKey) {
+        this.geoCoder = new GeoCoder(googleApiKey);
+        this.geocodingEnabled = true;
+        return this;
+    }
+
+
 
     /*******************
      * Public API
@@ -148,69 +156,86 @@ public class LaunchNavigator {
      **/
 
     /**
+     * Navigate to a point using class parameter
+     * @throws NavigationException no parameter of error in navigation
+     */
+    public void navigate() throws NavigationException {
+        validateObject(parameter, "Navigation Parameter");
+        navigate(parameter);
+    }
+
+    /**
      * Run a navigation App to go from one point to another
+     *
      * @param parameter
      * @
      */
     public void navigate(NavigationParameter parameter) throws NavigationException {
         String navigateArgs = "Called navigate() with parameter";
-        logger.debug(navigateArgs);
-        String appName = parameter.app;
+        debug(navigateArgs);
+        appName = parameter.app;
         NavigationParameter.LaunchMode launchMode = parameter.launchMode;
-        NavigatorApp navigatorApp= getNavigatorApp(appName, launchMode);
+        NavigatorApp navigatorApp = getNavigatorApp(launchMode);
         Intent intent = navigatorApp.go(parameter);
         invokeIntent(intent);
     }
 
-    @NotNull
-    private NavigatorApp getNavigatorApp(String appName, NavigationParameter.LaunchMode launchMode) throws NavigationException {
-        NavigatorApp navigatorApp;
-        if (!isNetworkAvailable()){
+    private NavigatorApp getNavigatorApp(NavigationParameter.LaunchMode launchMode) throws NavigationException {
+        if (!isNetworkAvailable()) {
             logger.error("Network is not available");
         }
-        if (appName.equals(GOOGLE_MAPS) && !launchMode.equals(NavigationParameter.LaunchMode.GEO)) {
-            navigatorApp = new GoogleMapsApp(logger);
-        } else if (appName.equals(CITYMAPPER)) {
+        if (shallUse(GOOGLE_MAPS) &&  (launchMode!=null && !launchMode.equals(NavigationParameter.LaunchMode.GEO))) {
+            return new GoogleMapsApp(logger);
+        } else if (shallUse(CITYMAPPER)) {
             validateGeoCoding();
-            navigatorApp = new CityMapperApp(geoCoder, logger);
-        } else if (appName.equals(UBER)) {
-            navigatorApp = new UberApp(logger);
-        } else if (appName.equals(WAZE)) {
-            navigatorApp = new WazeApp(logger);
-        } else if (appName.equals(YANDEX)) {
+            return new CityMapperApp(geoCoder, logger);
+        } else if (shallUse(UBER)) {
+            return new UberApp(logger);
+        } else if (shallUse(WAZE)) {
+            return new WazeApp(logger);
+        } else if (shallUse(YANDEX)) {
             validateGeoCoding();
-            navigatorApp = new YandexApp(geoCoder, logger);
-        } else if (appName.equals(SYGIC)) {
+            return new YandexApp(geoCoder, logger);
+        } else if (shallUse(SYGIC)) {
             validateGeoCoding();
-            navigatorApp = new SygicApp(geoCoder, logger);
-        } else if (appName.equals(HERE_MAPS)) {
+            return new SygicApp(geoCoder, logger);
+        } else if (shallUse(HERE_MAPS)) {
             validateGeoCoding();
-            navigatorApp = new HereMapsApp(logger, geoCoder);
-        } else if (appName.equals(MOOVIT)) {
+            return new HereMapsApp(logger, geoCoder);
+        } else if (shallUse(MOOVIT)) {
             validateGeoCoding();
-            navigatorApp = new MoovitApp(logger, geoCoder);
-        } else if (appName.equals(LYFT)) {
+            return new MoovitApp(logger, geoCoder);
+        } else if (shallUse(LYFT)) {
             validateGeoCoding();
-            navigatorApp = new LyftApp(logger, geoCoder);
-        } else if (appName.equals(MAPS_ME)) {
+            return new LyftApp(logger, geoCoder);
+        } else if (shallUse(MAPS_ME)) {
             validateGeoCoding();
-            navigatorApp = new MapsMeApp(logger, geoCoder);
-        } else if (appName.equals(CABIFY)) {
+            return new MapsMeApp(logger, geoCoder);
+        } else if (shallUse(CABIFY)) {
             validateGeoCoding();
-            navigatorApp = new CabifyApp(logger, geoCoder);
-        } else if (appName.equals(BAIDU)) {
-            navigatorApp = new BaidoApp(logger);
-        } else if (appName.equals(GAODE)) {
+            return new CabifyApp(logger, geoCoder);
+        } else if (shallUse(BAIDU)) {
+            return new BaidoApp(logger);
+        } else if (shallUse(GAODE)) {
             validateGeoCoding();
-            navigatorApp = new GaodeApp(logger, geoCoder, context);
-        } else if (appName.equals(TAXIS_99)) {
+            return new GaodeApp(logger, geoCoder, context);
+        } else if (shallUse(TAXIS_99)) {
             validateGeoCoding();
-            navigatorApp = new L99TaxisApp(logger, geoCoder);
+            return new L99TaxisApp(logger, geoCoder);
         } else {
             validateGeoCoding();
-            navigatorApp = new GenericAppLauncher(logger, geoCoder, context);
+            return new GenericAppLauncher(logger, geoCoder, context, launchMode);
         }
-        return navigatorApp;
+    }
+
+    private boolean shallUse( @NonNull String appname){
+        if (StringUtil.isEmpty(this.appName)){
+            logger.error("Application name is empty");
+            return false;
+        }else {
+            logger.debug("Checking " +appname + " if supports " + appname);
+            return appName.equalsIgnoreCase(appname);
+        }
     }
 
     private void validateGeoCoding() throws NavigationException {
@@ -221,24 +246,39 @@ public class LaunchNavigator {
 
     private void validateObject(Object object, String name) throws NavigationException {
         if (object == null) {
+            logger.error(name + "Not Provided While Required");
             throw new NavigationException(LOG_TAG + ": null " + name + " is not acceptable to use with this APP");
         }
     }
 
-
     /*
      * Utilities
      */
-    private void invokeIntent(Intent intent) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+    private void invokeIntent(Intent intent) throws NavigationException {
+        try {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }catch (ActivityNotFoundException exception){
+            logger.error(intent.getPackage() + " not found");
+            throw new NavigationException("Application is not found", exception);
+        }
+
     }
 
-
+    /**
+     * Check if network is available and phone is connected to  a network
+     * @return true if network is available and phone is connected to  a network
+     */
     public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public LaunchNavigator setParameter(NavigationParameter parameter) {
+        logger.debug( "Provided parameter: "+ parameter);
+        this.parameter = parameter;
+        return this;
     }
 }

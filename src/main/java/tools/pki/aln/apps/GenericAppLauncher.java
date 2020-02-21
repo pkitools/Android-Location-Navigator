@@ -41,11 +41,20 @@ public class GenericAppLauncher extends CommonFunctions implements NavigatorApp 
 
     private final GeoCoder geoCoder;
     private NavigationApplications navigationApplications;
+    private NavigationParameter.LaunchMode launchMode;
 
-    public GenericAppLauncher(ILogger logger, GeoCoder geoCoder, Context context) {
+    /**
+     *
+     * @param logger
+     * @param geoCoder
+     * @param context
+     * @param launchMode
+     */
+    public GenericAppLauncher(ILogger logger, GeoCoder geoCoder, Context context, NavigationParameter.LaunchMode launchMode) {
         super(logger);
         this.geoCoder = geoCoder;
-        navigationApplications = NavigationApplications.with(context);
+        navigationApplications = new NavigationApplications(context,logger);
+        this.launchMode = launchMode;
     }
 
     @Override
@@ -92,11 +101,11 @@ public class GenericAppLauncher extends CommonFunctions implements NavigatorApp 
             logMsg += " - extras=" + extras;
         }
 
-        logger.debug(logMsg);
-        logger.debug("URI: " + uri);
+        debug(logMsg);
+        debug("URI: " + uri);
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        if (!appName.equals(GEO)) {
+        if (launchMode!=null && !launchMode.equals(GEO)) {
             if (appName.equals(GOOGLE_MAPS)) {
                 appName =  NavigationApplications.getPackage(GOOGLE_MAPS);
             }

@@ -54,7 +54,7 @@ public class PositionBuilder {
         return this;
     }
 
-    public Position createPosition() {
+    public Position build() {
         return new Position(type, address, name, latitude, longitude, nickName);
     }
 }

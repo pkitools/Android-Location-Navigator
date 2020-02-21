@@ -40,9 +40,9 @@ public class UberApp extends CommonFunctions implements NavigatorApp {
         String extras = parseExtrasToUrl(params);
         if (!StringUtil.isEmpty(extras)) {
             url += extras;
-            logger.debug(" - extras=" + extras);
+            debug(" - extras=" + extras);
         }
-        logger.debug("URI: " + url);
+        debug("URI: " + url);
         return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
     }
 

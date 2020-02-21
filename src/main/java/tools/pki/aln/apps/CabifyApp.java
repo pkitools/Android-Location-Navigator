@@ -132,8 +132,8 @@ public class CabifyApp extends CommonFunctions implements NavigatorApp {
 
             url += oJson.toString();
 
-            logger.debug(logMsg);
-            logger.debug("URI: " + url);
+            debug(logMsg);
+            debug("URI: " + url);
             return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         } catch (JSONException e) {
             throw new NavigationException("Error in initiating application ", e);

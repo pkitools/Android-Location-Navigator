@@ -108,7 +108,7 @@ public class YandexApp extends CommonFunctions implements NavigatorApp {
             intent.putExtra(key, value);
 
         }
-        logger.debug(logMsg);
+        debug(logMsg);
         return intent;
 
     }

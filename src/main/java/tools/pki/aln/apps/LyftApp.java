@@ -96,8 +96,8 @@ public class LyftApp extends CommonFunctions implements NavigatorApp {
 
         }
 
-        logger.debug(logMsg);
-        logger.debug("URI: " + url);
+        debug(logMsg);
+        debug("URI: " + url);
         return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
     }
