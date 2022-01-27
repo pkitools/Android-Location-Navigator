@@ -37,21 +37,27 @@ public class WazeApp extends CommonFunctions implements NavigatorApp {
     public Intent go(NavigationParameter params) {
         String destAddress = null;
         String destLatLon = null;
-        if (params.getDestination().getType() == Position.Type.NAME) {
-            destAddress = getLocationFromName(params.getDestination());
-        } else {
-            destLatLon = getLocationFromPos(params.getDestination());
-        }
+        boolean navigate = false;
         String url = "waze://?";
         String logMsg = "Using Waze to navigate to";
-        if (!StringUtil.isEmpty(destLatLon)) {
-            url += "ll=" + destLatLon;
-            logMsg += " [" + destLatLon + "]";
-        } else {
-            url += "q=" + destAddress;
-            logMsg += " '" + destAddress + "'";
+        if (params.getDestination()!=null) {
+            navigate = true;
+            if (params.getDestination().getType() == Position.Type.NAME) {
+                destAddress = getLocationFromName(params.getDestination());
+            } else {
+                destLatLon = getLocationFromPos(params.getDestination());
+            }
+
+            if (!StringUtil.isEmpty(destLatLon)) {
+                url += "ll=" + destLatLon;
+                logMsg += " [" + destLatLon + "]";
+            } else {
+                url += "q=" + destAddress;
+                logMsg += " '" + destAddress + "'";
+            }
         }
-        url += "&navigate=yes";
+        if(navigate)
+           url += "&navigate=yes";
 
         logMsg += " from current location";
 
@@ -60,10 +66,8 @@ public class WazeApp extends CommonFunctions implements NavigatorApp {
             url += extras;
             logMsg += " - extras=" + extras;
         }
-
         debug(logMsg);
         debug("URI: " + url);
         return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-
     }
 }
